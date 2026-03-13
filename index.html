@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AHJ.wiki — Permitting Intelligence for Distributed Clean Energy</title>
+  <meta name="description" content="AHJ.wiki is the permitting intelligence layer for distributed clean energy — starting with solar and storage." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #F9F7F3;
+      --surface:   #FFFFFF;
+      --navy:      #1B2C3E;
+      --navy-mid:  #2D4560;
+      --amber:     #C97A1A;
+      --amber-lt:  #F0A830;
+      --text:      #1B2C3E;
+      --muted:     #5A6E82;
+      --rule:      #DDD8CF;
+      --tag-bg:    #EDF1F5;
+      --ff-disp:   'Cormorant Garamond', Georgia, serif;
+      --ff-body:   'Sora', sans-serif;
+      --max:       1100px;
+      --radius:    6px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--ff-body);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ——— NAV ——————————————————————————————————————————— */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(249,247,243,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--rule);
+      padding: 0 2rem;
+    }
+    .nav-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .nav-logo {
+      font-family: var(--ff-disp);
+      font-weight: 600;
+      font-size: 1.35rem;
+      color: var(--navy);
+      letter-spacing: 0.01em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--amber); }
+    .nav-cta {
+      display: inline-block;
+      padding: 0.45rem 1.1rem;
+      background: var(--navy);
+      color: #fff;
+      font-family: var(--ff-body);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: var(--radius);
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--navy-mid); }
+
+    /* ——— HERO —————————————————————————————————————————— */
+    .hero {
+      padding: 6rem 2rem 5rem;
+      max-width: var(--max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    @media (max-width: 760px) {
+      .hero { grid-template-columns: 1fr; gap: 2.5rem; padding: 4rem 1.5rem 3rem; }
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-family: var(--ff-body);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1.2rem;
+    }
+    .hero-headline {
+      font-family: var(--ff-disp);
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      font-weight: 600;
+      line-height: 1.12;
+      color: var(--navy);
+      margin-bottom: 1.4rem;
+      letter-spacing: -0.01em;
+    }
+    .hero-headline em {
+      font-style: italic;
+      color: var(--amber);
+    }
+    .hero-sub {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--muted);
+      max-width: 480px;
+    }
+
+    .hero-card {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 2.4rem 2rem;
+      box-shadow: 0 2px 24px rgba(27,44,62,0.07);
+    }
+    .hero-card-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+    }
+    .hero-card h3 {
+      font-family: var(--ff-disp);
+      font-size: 1.55rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 0.65rem;
+      line-height: 1.25;
+    }
+    .hero-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 1.6rem;
+      line-height: 1.6;
+    }
+
+    .email-form { display: flex; flex-direction: column; gap: 0.75rem; }
+    .email-form input[type="email"] {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      font-family: var(--ff-body);
+      font-size: 0.9rem;
+      color: var(--navy);
+      background: var(--bg);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .email-form input[type="email"]:focus { border-color: var(--amber); }
+    .email-form input[type="email"]::placeholder { color: #AAA; }
+    .email-form button {
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--amber);
+      color: #fff;
+      font-family: var(--ff-body);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .email-form button:hover { background: #B56C10; }
+    .email-form button:active { transform: scale(0.98); }
+    .form-note {
+      font-size: 0.73rem;
+      color: #AAA;
+      text-align: center;
+      margin-top: 0.2rem;
+    }
+    .form-success {
+      display: none;
+      padding: 1rem;
+      background: #EEF7F2;
+      border: 1px solid #B8DEC9;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      color: #2D6A4F;
+      text-align: center;
+    }
+    .form-error {
+      display: none;
+      padding: 1rem;
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      color: #991B1B;
+      text-align: center;
+    }
+
+    /* ——— DIVIDER ——————————————————————————————————————— */
+    .divider {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 2rem;
+      border: none;
+      border-top: 1px solid var(--rule);
+    }
+
+    /* ——— SECTIONS —————————————————————————————————————— */
+    section { padding: 5rem 2rem; }
+    .section-inner { max-width: var(--max); margin: 0 auto; }
+
+    .section-tag {
+      display: inline-block;
+      background: var(--tag-bg);
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      margin-bottom: 1.2rem;
+    }
+    .section-headline {
+      font-family: var(--ff-disp);
+      font-size: clamp(1.9rem, 3.5vw, 2.7rem);
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 580px;
+      line-height: 1.7;
+      margin-bottom: 3rem;
+    }
+
+    /* ——— PROBLEM ——————————————————————————————————————— */
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    @media (max-width: 700px) { .problem-grid { grid-template-columns: 1fr; } }
+
+    .problem-card {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 1.8rem 1.5rem;
+    }
+    .problem-icon { font-size: 1.6rem; margin-bottom: 1rem; }
+    .problem-card h4 {
+      font-family: var(--ff-disp);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+    .problem-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ——— SHARED DATABASE CALLOUT ——————————————————————— */
+    .callout-block {
+      margin-top: 2.5rem;
+      padding: 2rem 2.4rem;
+      background: var(--navy);
+      border-radius: 10px;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+    @media (max-width: 640px) { .callout-block { flex-direction: column; } }
+    .callout-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+      padding-top: 0.15rem;
+    }
+    .callout-text h4 {
+      font-family: var(--ff-disp);
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .callout-text p {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.65;
+    }
+    .callout-text p em {
+      color: var(--amber-lt);
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    /* ——— PRODUCT ——————————————————————————————————————— */
+    .product-section { background: var(--navy); color: #fff; }
+    .product-section .section-tag { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); }
+    .product-section .section-headline { color: #fff; }
+    .product-section .section-sub { color: rgba(255,255,255,0.6); }
+
+    .tier-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 640px) { .tier-grid { grid-template-columns: 1fr; } }
+
+    .tier-card {
+      border-radius: 10px;
+      padding: 2rem 1.8rem;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    .tier-card.free { background: rgba(255,255,255,0.05); }
+    .tier-card.paid { background: var(--amber); border-color: var(--amber); }
+
+    .tier-badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.7rem;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+    }
+    .tier-card.free .tier-badge { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+    .tier-card.paid .tier-badge { background: rgba(0,0,0,0.15); color: #fff; }
+
+    .tier-card h3 {
+      font-family: var(--ff-disp);
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+    .tier-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      color: rgba(255,255,255,0.5);
+    }
+    .tier-card.paid .tier-label { color: rgba(255,255,255,0.75); }
+    .tier-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .tier-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.75);
+    }
+    .tier-card.paid .tier-list li { color: rgba(255,255,255,0.9); }
+    .tier-list li::before { content: '—'; flex-shrink: 0; color: rgba(255,255,255,0.35); margin-top: 0.05em; }
+    .tier-card.paid .tier-list li::before { color: rgba(255,255,255,0.6); }
+
+    /* ——— WHY NOW / STATS —————————————————————————————— */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+    @media (max-width: 640px) { .stat-row { grid-template-columns: 1fr; } }
+
+    .stat-block { border-left: 2px solid var(--amber); padding-left: 1.2rem; }
+    .stat-number {
+      font-family: var(--ff-disp);
+      font-size: 2.4rem;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .stat-source {
+      display: block;
+      font-size: 0.72rem;
+      color: #AAA;
+      margin-top: 0.4rem;
+    }
+
+    /* ——— FOUNDER ——————————————————————————————————————— */
+    .founder-section { background: var(--surface); }
+    .founder-inner { max-width: 720px; margin: 0 auto; text-align: center; }
+    .founder-quote {
+      font-family: var(--ff-disp);
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-style: italic;
+      color: var(--navy);
+      line-height: 1.45;
+      margin-bottom: 1.8rem;
+    }
+    .founder-name { font-weight: 600; font-size: 0.9rem; color: var(--navy); margin-bottom: 0.25rem; }
+    .founder-creds { font-size: 0.82rem; color: var(--muted); }
+    .founder-creds span { display: inline-block; margin: 0 0.4rem; color: var(--rule); }
+
+    /* ——— BOTTOM CTA ——————————————————————————————————— */
+    .bottom-cta { background: var(--bg); padding: 5rem 2rem; text-align: center; }
+    .bottom-cta .section-headline { margin: 0.8rem auto 1rem; max-width: 600px; }
+    .bottom-cta .section-sub { margin: 0 auto 2.5rem; }
+    .bottom-form {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    @media (max-width: 560px) { .bottom-form { flex-direction: column; } }
+    .bottom-form input[type="email"] {
+      flex: 1;
+      padding: 0.8rem 1rem;
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      font-family: var(--ff-body);
+      font-size: 0.9rem;
+      color: var(--navy);
+      background: var(--surface);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .bottom-form input[type="email"]:focus { border-color: var(--amber); }
+    .bottom-form input[type="email"]::placeholder { color: #AAA; }
+    .bottom-form button {
+      padding: 0.8rem 1.6rem;
+      background: var(--navy);
+      color: #fff;
+      font-family: var(--ff-body);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .bottom-form button:hover { background: var(--navy-mid); }
+    .bottom-success {
+      display: none;
+      padding: 0.9rem 1.4rem;
+      background: #EEF7F2;
+      border: 1px solid #B8DEC9;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      color: #2D6A4F;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .bottom-error {
+      display: none;
+      padding: 0.9rem 1.4rem;
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      color: #991B1B;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .bottom-note { font-size: 0.73rem; color: #BBB; margin-top: 0.9rem; }
+
+    /* ——— FOOTER ——————————————————————————————————————— */
+    footer { border-top: 1px solid var(--rule); padding: 2rem; text-align: center; }
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo { font-family: var(--ff-disp); font-weight: 600; font-size: 1.1rem; color: var(--navy); }
+    .footer-logo span { color: var(--amber); }
+    .footer-copy { font-size: 0.78rem; color: var(--muted); }
+    .footer-tagline { font-size: 0.78rem; color: var(--muted); font-style: italic; }
+
+    /* ——— ANIMATIONS ——————————————————————————————————— */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-eyebrow  { animation: fadeUp 0.5s ease both; animation-delay: 0.1s; }
+    .hero-headline { animation: fadeUp 0.5s ease both; animation-delay: 0.2s; }
+    .hero-sub      { animation: fadeUp 0.5s ease both; animation-delay: 0.3s; }
+    .hero-card     { animation: fadeUp 0.5s ease both; animation-delay: 0.35s; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">AHJ<span>.</span>wiki</a>
+    <a href="#get-early-access" class="nav-cta">Get Early Access</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <span class="hero-eyebrow">Permitting Intelligence for Clean Energy</span>
+    <h1 class="hero-headline">
+      Stop losing time to <em>fragmented</em> AHJ requirements
+    </h1>
+    <p class="hero-sub">
+      AHJ.wiki is the permitting intelligence layer for distributed clean energy — starting with solar and storage. Structured, searchable compliance intelligence for every jurisdiction.
+    </p>
+  </div>
+  <div class="hero-right">
+    <div class="hero-card">
+      <div class="hero-card-label">Early Access</div>
+      <h3>Be first to know when AHJ.wiki launches.</h3>
+      <p>Get notified when we go live. No spam, no fluff — just the signal that the tool is ready.</p>
+      <form class="email-form" id="hero-form">
+        <input type="email" name="email_address" placeholder="your@email.com" required />
+        <button type="submit">Notify Me →</button>
+        <p class="form-note">No spam. Unsubscribe anytime.</p>
+      </form>
+      <div class="form-success" id="hero-success">
+        ✓ &nbsp;You're on the list. We'll be in touch.
+      </div>
+      <div class="form-error" id="hero-error">
+        Something went wrong. Please try again.
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider" />
+
+<!-- PROBLEM -->
+<section>
+  <div class="section-inner">
+    <span class="section-tag">The Problem</span>
+    <h2 class="section-headline">Permitting friction is costing the industry — everywhere.</h2>
+    <p class="section-sub">
+      Every solar and storage installation requires approval from a local Authority Having Jurisdiction. There are over 36,000 AHJs across the U.S. — each with their own requirements, interpretations, and processes. That information is fragmented, hard to verify, and rarely documented in one place.
+    </p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon">📄</div>
+        <h4>Fragmented Information</h4>
+        <p>AHJ requirements are scattered across PDFs, inboxes, and tribal knowledge. There's no single source of truth — and no standard structure.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">⏱</div>
+        <h4>Wasted Research Time</h4>
+        <p>Designers and permitters spend hours tracking down requirements that should be findable in minutes. That's rework baked into every job.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🔁</div>
+        <h4>Avoidable Rejections</h4>
+        <p>Plan check rejections, costly corrections, and delayed interconnection — driven by information gaps that a better system would eliminate.</p>
+      </div>
+    </div>
+
+    <!-- SHARED DATABASE CALLOUT -->
+    <div class="callout-block">
+      <div class="callout-icon">💡</div>
+      <div class="callout-text">
+        <h4>Every installer is maintaining their own database. Why not share one?</h4>
+        <p>
+          Right now, every solar installer, engineer, and design firm in the country is painstakingly building and updating their own internal AHJ database — independently, in parallel, at enormous cost. There are <em>36,177 AHJs</em> that may receive a solar permit or interconnection request. No single source of truth exists. AHJ.wiki changes that.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section class="product-section">
+  <div class="section-inner">
+    <span class="section-tag">The Product</span>
+    <h2 class="section-headline">Compliance intelligence — organized, searchable, trusted.</h2>
+    <p class="section-sub">
+      AHJ.wiki organizes scattered permitting requirements into structured, searchable compliance intelligence. Two layers, two levels of power.
+    </p>
+    <div class="tier-grid">
+      <div class="tier-card free">
+        <span class="tier-badge">Free</span>
+        <h3>Useful Lookup Tool</h3>
+        <p class="tier-label">For anyone navigating a jurisdiction</p>
+        <ul class="tier-list">
+          <li>Searchable AHJ database — nationwide</li>
+          <li>Key requirements by jurisdiction</li>
+          <li>Publicly accessible — no login required</li>
+          <li>Community-verified data, kept current</li>
+        </ul>
+      </div>
+      <div class="tier-card paid">
+        <span class="tier-badge">Paid</span>
+        <h3>Operational Advantage</h3>
+        <p class="tier-label">For teams deploying at scale</p>
+        <ul class="tier-list">
+          <li>Premium depth — requirements, contacts, history</li>
+          <li>Team workflows and shared notes</li>
+          <li>Jurisdiction change alerts</li>
+          <li>Integrations with design and permitting tools</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY NOW -->
+<section>
+  <div class="section-inner">
+    <span class="section-tag">Why Now</span>
+    <h2 class="section-headline">Deployment is accelerating. Soft costs haven't caught up.</h2>
+    <p class="section-sub">
+      Distributed energy is growing fast. Permitting is a known bottleneck with a solvable information problem. Existing solutions are closed, vendor-owned, or expensive — and none are designed as neutral, public-facing AHJ intelligence.
+    </p>
+    <div class="stat-row">
+      <div class="stat-block">
+        <div class="stat-number">36,177</div>
+        <div class="stat-label">AHJs in the U.S. that may receive a solar permit or interconnection request — each with their own requirements</div>
+        <span class="stat-source">Source: SunSpec Alliance / Blu Banyan AHJ Registry, U.S. Census data</span>
+      </div>
+      <div class="stat-block">
+        <div class="stat-number">~50%</div>
+        <div class="stat-label">Of residential solar installed costs are soft costs — including permitting, inspection, and interconnection</div>
+        <span class="stat-source">Source: NREL PV System Cost Benchmarks (2024)</span>
+      </div>
+      <div class="stat-block">
+        <div class="stat-number">Zero</div>
+        <div class="stat-label">Neutral, structured, public sources of AHJ permitting intelligence exist today. Every team is on their own.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section class="founder-section">
+  <div class="section-inner">
+    <div class="founder-inner">
+      <span class="section-tag">The Founder</span>
+      <p class="founder-quote">
+        "This isn't a software person who discovered the problem. It's a permitting practitioner building the solution she needed and couldn't find."
+      </p>
+      <div class="founder-name">Kelsey McFarland</div>
+      <div class="founder-creds">
+        NABCEP-Certified Solar Designer
+        <span>·</span>
+        ICC Permit Technician (expected March 2026)
+        <span>·</span>
+        Former Co-Chair, Startup Weekend Breckenridge
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOTTOM CTA -->
+<div class="bottom-cta" id="get-early-access">
+  <div class="section-inner">
+    <span class="section-tag">Early Access</span>
+    <h2 class="section-headline">Ready to stop building your own AHJ database?</h2>
+    <p class="section-sub">
+      AHJ.wiki is launching soon — starting with solar and storage. Join the list and be first to know when it's live.
+    </p>
+    <form class="bottom-form" id="bottom-form">
+      <input type="email" name="email_address" placeholder="your@email.com" required />
+      <button type="submit">Get Early Access</button>
+    </form>
+    <div class="bottom-success" id="bottom-success">
+      ✓ &nbsp;You're on the list. We'll reach out when AHJ.wiki is ready.
+    </div>
+    <div class="bottom-error" id="bottom-error">
+      Something went wrong. Please try again.
+    </div>
+    <p class="bottom-note">No spam. Unsubscribe anytime.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">AHJ<span>.</span>wiki</div>
+    <div class="footer-tagline">The permitting intelligence layer for distributed clean energy.</div>
+    <div class="footer-copy">© 2026 AHJ.wiki</div>
+  </div>
+</footer>
+
+<script>
+  async function handleSubmit(e, formId, successId, errorId) {
+    e.preventDefault();
+    const form = document.getElementById(formId);
+    const success = document.getElementById(successId);
+    const error = document.getElementById(errorId);
+    const button = form.querySelector('button');
+    const originalText = button.textContent;
+
+    button.textContent = 'Submitting...';
+    button.disabled = true;
+    error.style.display = 'none';
+
+    try {
+      const formData = new FormData(form);
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        form.style.display = 'none';
+        success.style.display = 'block';
+      } else {
+        throw new Error('Server error');
+      }
+    } catch (err) {
+      error.style.display = 'block';
+      button.textContent = originalText;
+      button.disabled = false;
+    }
+  }
+
+  document.getElementById('hero-form').addEventListener('submit', function(e) {
+    handleSubmit(e, 'hero-form', 'hero-success', 'hero-error');
+  });
+
+  document.getElementById('bottom-form').addEventListener('submit', function(e) {
+    handleSubmit(e, 'bottom-form', 'bottom-success', 'bottom-error');
+  });
+</script>
+
+</body>
+</html>
