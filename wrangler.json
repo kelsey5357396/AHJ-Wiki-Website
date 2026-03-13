@@ -4,13 +4,13 @@
   "compatibility_date": "2026-03-13",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
-    "directory": "./"
+    "directory": "./public"
   },
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "ahj-wiki-subscribers",
-      "database_id": "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+      "database_id": "9e4ea0b0-750e-4e80-aa82-556a8db3c0bc"
     }
   ]
 }
