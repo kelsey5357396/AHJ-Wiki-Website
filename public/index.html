@@ -384,6 +384,87 @@
     .tier-list li::before { content: '—'; flex-shrink: 0; color: rgba(255,255,255,0.35); margin-top: 0.05em; }
     .tier-card.paid .tier-list li::before { color: rgba(255,255,255,0.6); }
 
+    /* ——— PREVIEW SECTION ————————————————————————————— */
+    .preview-section {
+      background: var(--surface);
+      padding: 5rem 2rem;
+    }
+    .preview-section .section-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      text-align: center;
+    }
+    .preview-section .section-sub {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .preview-browser {
+      margin: 0 auto;
+      max-width: 1000px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(27,44,62,0.15), 0 2px 8px rgba(27,44,62,0.08);
+      border: 1px solid var(--rule);
+    }
+    .preview-chrome {
+      background: #F0EEED;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .preview-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .preview-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: block;
+    }
+    .preview-dots span:nth-child(1) { background: #EF6B5E; }
+    .preview-dots span:nth-child(2) { background: #F5BD4F; }
+    .preview-dots span:nth-child(3) { background: #61C554; }
+    .preview-url {
+      flex: 1;
+      background: #fff;
+      border-radius: 4px;
+      padding: 4px 12px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: var(--ff-body);
+      text-align: center;
+      border: 1px solid var(--rule);
+    }
+    .preview-iframe-wrap {
+      position: relative;
+      width: 100%;
+      height: 520px;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    .preview-iframe-wrap iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1440px;
+      height: 900px;
+      border: none;
+      transform: scale(0.694);
+      transform-origin: top left;
+      pointer-events: none;
+    }
+    @media (max-width: 760px) {
+      .preview-iframe-wrap { height: 300px; }
+      .preview-iframe-wrap iframe {
+        width: 1440px;
+        height: 900px;
+        transform: scale(0.4);
+      }
+    }
+
     /* ——— WHY NOW / STATS —————————————————————————————— */
     .stat-row {
       display: grid;
@@ -634,6 +715,26 @@
           <li>Jurisdiction change alerts</li>
           <li>Integrations with design and permitting tools</li>
         </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PREVIEW -->
+<section class="preview-section">
+  <div class="section-inner">
+    <span class="section-tag">Sneak Peek</span>
+    <h2 class="section-headline">See what's coming.</h2>
+    <p class="section-sub">
+      Structured requirements, submission methods, contacts, fee estimates, and team workflows — all in one place. Here's a look at the AHJ lookup experience.
+    </p>
+    <div class="preview-browser">
+      <div class="preview-chrome">
+        <div class="preview-dots"><span></span><span></span><span></span></div>
+        <div class="preview-url">ahj.wiki/lookup/jefferson-county-co</div>
+      </div>
+      <div class="preview-iframe-wrap">
+        <iframe src="/dashboard-preview.html" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
       </div>
     </div>
   </div>

@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AHJ.wiki — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* —— Exact brand tokens —— */
+:root {
+  --navy:        #1B2C3E;
+  --navy-mid:    #2D4560;
+  --amber:       #C97A1A;
+  --amber-light: #F0A830;
+  --amber-pale:  #FDF4E6;
+  --bg:          #F9F7F3;
+  --surface:     #FFFFFF;
+  --muted:       #5A6E82;
+  --rule:        #DDD8CF;
+  --rule-strong: #C4BDAF;
+
+  --success:     #2A6E52;
+  --success-bg:  #EBF5EF;
+  --warn:        #8A5200;
+  --warn-bg:     #FEF2DC;
+  --danger:      #962B20;
+  --danger-bg:   #FCEEED;
+  --info:        #1A4F8A;
+  --info-bg:     #E8F0F9;
+
+  --sidebar-w:   222px;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'Sora', system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--navy);
+  font-size: 13px;
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ————————————————————————————————
+   SIDEBAR
+———————————————————————————————— */
+.sidebar {
+  width: var(--sidebar-w);
+  min-height: 100vh;
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sidebar-logo {
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.logo-mark {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.2px;
+}
+
+.logo-mark .dot { color: var(--amber); }
+.logo-mark .wiki { color: rgba(255,255,255,0.9); }
+
+.logo-sub {
+  margin-top: 3px;
+  font-size: 9.5px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.nav-group-label {
+  padding: 16px 18px 5px;
+  font-size: 9px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.28);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 18px;
+  color: rgba(255,255,255,0.52);
+  font-size: 12px;
+  font-weight: 400;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  text-decoration: none;
+  transition: color 0.12s, background 0.12s;
+}
+
+.nav-item.active {
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  border-left-color: var(--amber);
+  font-weight: 500;
+}
+
+.nav-ic {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.nav-badge {
+  margin-left: auto;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 20px;
+}
+
+.nb-alert { background: var(--amber); color: var(--navy); }
+.nb-pro { background: rgba(240,168,48,0.15); color: var(--amber-light); border: 1px solid rgba(240,168,48,0.22); }
+
+.sidebar-user {
+  margin-top: auto;
+  padding: 14px 18px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--amber);
+  color: var(--navy);
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.user-name { font-size: 11.5px; font-weight: 500; color: rgba(255,255,255,0.82); }
+.user-role { font-size: 9.5px; color: var(--amber-light); font-weight: 300; }
+
+/* ————————————————————————————————
+   MAIN LAYOUT
+———————————————————————————————— */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.topbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--rule);
+  padding: 11px 26px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.topbar-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--navy);
+  white-space: nowrap;
+}
+
+.search-wrap { flex: 1; max-width: 460px; position: relative; }
+
+.search-input {
+  width: 100%;
+  height: 32px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 5px;
+  padding: 0 10px 0 32px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--navy);
+  background: var(--bg);
+  outline: none;
+}
+
+.search-input::placeholder { color: var(--muted); opacity: 0.7; }
+
+.search-ic {
+  position: absolute;
+  left: 9px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  opacity: 0.6;
+}
+
+.topbar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--rule-strong);
+  background: transparent;
+  color: var(--muted);
+}
+
+.notif {
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid var(--rule);
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  color: var(--muted);
+}
+
+.notif-pip {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--amber);
+  border: 1.5px solid var(--surface);
+}
+
+.content {
+  flex: 1;
+  padding: 20px 26px;
+  display: flex;
+  gap: 18px;
+  min-height: 0;
+  align-items: flex-start;
+}
+
+.col-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.col-side { width: 272px; flex-shrink: 0; display: flex; flex-direction: column; gap: 14px; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.card-head {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-title { font-size: 11.5px; font-weight: 600; color: var(--navy); }
+.card-meta { font-size: 11px; color: var(--muted); }
+.card-body { padding: 14px 16px; }
+
+/* —— STAT CARDS —— */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 10px;
+}
+
+.stat {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 13px 14px;
+}
+
+.stat-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 7px;
+}
+
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1;
+}
+
+.stat-unit {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--muted);
+  margin-left: 2px;
+}
+
+.stat-sub { font-size: 10.5px; color: var(--muted); margin-top: 5px; }
+
+/* —— AHJ HERO —— */
+.ahj-hero {
+  background: var(--navy);
+  padding: 16px 18px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+}
+
+.ahj-courthouse {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: rgba(255,255,255,0.7);
+}
+
+.ahj-info { flex: 1; min-width: 0; }
+
+.ahj-name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.15;
+}
+
+.ahj-meta { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+
+.ahj-badges { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.b-green  { background: rgba(42,110,82,0.28);  color: #7DCEAA; border: 1px solid rgba(125,206,170,0.22); }
+.b-amber  { background: rgba(201,122,26,0.25);  color: var(--amber-light); border: 1px solid rgba(240,168,48,0.22); }
+.b-ghost  { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.65); border: 1px solid rgba(255,255,255,0.12); }
+.b-success { background: var(--success-bg); color: var(--success); }
+.b-warn    { background: var(--warn-bg);    color: var(--warn); }
+.b-danger  { background: var(--danger-bg);  color: var(--danger); }
+.b-info    { background: var(--info-bg);    color: var(--info); }
+.b-neutral { background: var(--bg);         color: var(--muted); border: 1px solid var(--rule); }
+
+.tab-strip {
+  display: flex;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg);
+  gap: 2px;
+}
+
+.tab {
+  padding: 9px 12px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  white-space: nowrap;
+}
+
+.tab.active {
+  color: var(--navy);
+  border-bottom-color: var(--amber);
+  font-weight: 600;
+}
+
+.tab-pro { font-size: 9px; font-weight: 600; color: var(--amber); margin-left: 3px; }
+
+/* —— REQUIREMENTS TABLE —— */
+.req-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+
+.req-table th {
+  text-align: left;
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 0 0 9px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.req-table th:not(:first-child) { text-align: center; }
+
+.req-table td {
+  padding: 9px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.req-table tr:last-child td { border-bottom: none; }
+.req-table td:not(:first-child) { text-align: center; }
+
+.req-name  { font-weight: 500; color: var(--navy); }
+.req-note  { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+.chk  { color: var(--success); font-size: 13px; font-weight: 600; }
+.dash { color: var(--rule-strong); }
+
+.method-row { display: flex; gap: 7px; flex-wrap: wrap; }
+
+.method-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  border: 1px solid var(--rule);
+  background: var(--bg);
+  color: var(--muted);
+}
+
+.method-pill.preferred {
+  background: var(--amber-pale);
+  color: var(--amber);
+  border-color: rgba(201,122,26,0.25);
+  font-weight: 600;
+}
+
+.method-pill.available {
+  background: var(--surface);
+  color: var(--navy);
+  border-color: var(--rule-strong);
+}
+
+/* —— INFO ROWS —— */
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 12px;
+}
+
+.info-row:last-child { border-bottom: none; }
+.info-k { color: var(--muted); flex-shrink: 0; font-size: 11.5px; }
+.info-v { color: var(--navy); font-weight: 500; text-align: right; }
+.info-link { color: var(--amber); }
+
+/* —— ALERTS —— */
+.alert-row {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.alert-row:last-child { border-bottom: none; }
+
+.alert-pip {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+.pip-amber { background: var(--amber); }
+.pip-navy  { background: var(--navy-mid); }
+.pip-green { background: var(--success); }
+
+.alert-body { flex: 1; }
+.alert-title { font-size: 11.5px; font-weight: 500; color: var(--navy); line-height: 1.4; }
+.alert-time  { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+/* —— TEAM ACTIVITY —— */
+.activity-row {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.activity-row:last-child { border-bottom: none; }
+
+.act-av {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 9px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.av-navy  { background: var(--navy-mid); color: #fff; }
+.av-amber { background: var(--amber); color: var(--navy); }
+.av-muted { background: var(--bg); color: var(--navy); border: 1px solid var(--rule); }
+
+.act-text { font-size: 11px; color: var(--muted); line-height: 1.5; flex: 1; }
+.act-text strong { color: var(--navy); font-weight: 500; }
+.act-time { font-size: 9.5px; color: var(--muted); margin-top: 1px; opacity: 0.7; }
+
+.verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: var(--success-bg);
+  color: var(--success);
+  font-size: 9.5px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid rgba(42,110,82,0.18);
+}
+
+.eyebrow {
+  font-size: 9.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.footer {
+  background: var(--surface);
+  border-top: 1px solid var(--rule);
+  padding: 7px 26px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.footer-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+.footer-pip { width: 5px; height: 5px; border-radius: 50%; }
+.fp-green  { background: var(--success); }
+.fp-amber  { background: var(--amber); }
+
+.footer-brand {
+  margin-left: auto;
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+hr.rule { border: none; border-top: 1px solid var(--rule); margin: 13px 0; }
+</style>
+</head>
+<body>
+
+<!-- —— SIDEBAR —— -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">AHJ<span class="dot">.</span><span class="wiki">wiki</span></div>
+    <div class="logo-sub">Permitting Intelligence</div>
+  </div>
+
+  <div class="nav-group-label">Research</div>
+
+  <a class="nav-item active">
+    <svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/>
+      <rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/>
+    </svg>
+    AHJ Lookup
+  </a>
+
+  <a class="nav-item">
+    <svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="7" cy="7" r="4.5"/><path d="M11 11l2.5 2.5"/>
+    </svg>
+    Search AHJs
+  </a>
+
+  <a class="nav-item">
+    <svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M2 4h12M2 8h9M2 12h6"/>
+    </svg>
+    Code Reference
+  </a>
+
+  <div class="nav-group-label">Workspace</div>
+
+  <a class="nav-item">
+    <svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="1" y="2" width="14" height="12" rx="2"/><path d="M3 6h10M3 9h7"/>
+    </svg>
+    My Projects
+    <span class="nav-badge nb-pro">PRO</span>
+  </a>
+
+  <a class="nav-item">
+    <svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/>
+    </svg>
+    Alerts
+    <span class="nav-badge nb-alert">3</span>
+  </a>
+
+  <a class="nav-item">
+    <svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="6" cy="6" r="3"/><circle cx="11" cy="10" r="3"/><path d="M8.5 6.5l1 1.5"/>
+    </svg>
+    Team Activity
+    <span class="nav-badge nb-pro">PRO</span>
+  </a>
+
+  <a class="nav-item">
+    <svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M3 8h10M8 3l5 5-5 5"/><path d="M3 4v8"/>
+    </svg>
+    Saved AHJs
+  </a>
+
+  <div class="nav-group-label">Integrations</div>
+
+  <a class="nav-item">
+    <svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M11 5a3 3 0 0 1 0 6H8m-3-6a3 3 0 0 0 0 6h3M5.5 8h5"/>
+    </svg>
+    API Access
+    <span class="nav-badge nb-pro">PRO</span>
+  </a>
+
+  <div class="sidebar-user">
+    <div class="user-avatar">KM</div>
+    <div>
+      <div class="user-name">Kelsey McFarland</div>
+      <div class="user-role">Pro · NABCEP Certified</div>
+    </div>
+  </div>
+</aside>
+
+<!-- —— MAIN —— -->
+<div class="main">
+
+  <div class="topbar">
+    <span class="topbar-title">AHJ Lookup</span>
+    <div class="search-wrap">
+      <svg class="search-ic" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+        <circle cx="7" cy="7" r="4.5"/><path d="M11 11l2.5 2.5"/>
+      </svg>
+      <input class="search-input" type="text" value="Jefferson County, CO" placeholder="Search by city, county, zip, or AHJ name…">
+    </div>
+    <div class="topbar-right">
+      <button class="btn">
+        <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M8 5v6M5 8h6"/></svg>
+        Add to Project
+      </button>
+      <button class="btn">
+        <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        Export
+      </button>
+      <div class="notif">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M8 2a5 5 0 0 1 5 5v2l1.5 2.5H1.5L3 9V7a5 5 0 0 1 5-5z"/><path d="M6.5 13.5a1.5 1.5 0 0 0 3 0"/>
+        </svg>
+        <div class="notif-pip"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="col-main">
+
+      <div class="stats-row">
+        <div class="stat">
+          <div class="stat-label">Avg. Plan Check</div>
+          <div class="stat-num">12<span class="stat-unit">days</span></div>
+          <div class="stat-sub">Standard residential</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Submission Methods</div>
+          <div class="stat-num" style="color:var(--amber);">3</div>
+          <div class="stat-sub">Online preferred</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Online Portal</div>
+          <div class="stat-num" style="font-size:15px;padding-top:6px;">
+            <span class="b-success badge">&#10003; Active — Accela</span>
+          </div>
+          <div class="stat-sub" style="margin-top:6px;">ePlan submission</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Last Verified</div>
+          <div class="stat-num" style="font-family:var(--font-body);font-size:15px;padding-top:4px;font-weight:500;color:var(--muted);">Mar 2026</div>
+          <div class="stat-sub" style="margin-top:6px;"><span class="verified">&#10003; Verified</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ahj-hero">
+          <div class="ahj-courthouse">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M3 21h18M3 10h18M12 3l9 7H3l9-7z"/><rect x="9" y="14" width="6" height="7"/>
+            </svg>
+          </div>
+          <div class="ahj-info">
+            <div class="ahj-name">Jefferson County</div>
+            <div class="ahj-meta">Colorado &nbsp;·&nbsp; Unincorporated &amp; Incorporated Areas &nbsp;·&nbsp; AHJ #CO-JEF-001</div>
+            <div class="ahj-badges">
+              <span class="badge b-green">&#10003; Online Submission</span>
+              <span class="badge b-amber">&#9889; Expedited Available</span>
+              <span class="badge b-ghost">IBC 2021 &nbsp;·&nbsp; NEC 2023</span>
+              <span class="badge b-ghost">Residential &amp; Commercial</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-strip">
+          <div class="tab active">Requirements</div>
+          <div class="tab">Submission</div>
+          <div class="tab">Contacts</div>
+          <div class="tab">History</div>
+          <div class="tab">Notes <span class="tab-pro">PRO</span></div>
+        </div>
+
+        <div class="card-body">
+          <div class="eyebrow">Plan Set Requirements — Solar &amp; Storage</div>
+
+          <table class="req-table">
+            <thead>
+              <tr>
+                <th style="width:42%">Requirement</th>
+                <th style="width:14%">Residential</th>
+                <th style="width:14%">Commercial</th>
+                <th style="width:30%">Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="req-name">Site Plan</div><div class="req-note">Property boundary, setbacks, array location</div></td>
+                <td><span class="chk">&#10003;</span></td>
+                <td><span class="chk">&#10003;</span></td>
+                <td><span class="badge b-neutral" style="font-size:10px;">Min. 1/8" scale</span></td>
+              </tr>
+              <tr>
+                <td><div class="req-name">Structural Calculations</div><div class="req-note">PE stamp required on new construction</div></td>
+                <td><span class="chk">&#10003;</span></td>
+                <td><span class="chk">&#10003;</span></td>
+                <td><span class="badge b-warn" style="font-size:10px;">PE stamp &gt;10 kW</span></td>
+              </tr>
+              <tr>
+                <td><div class="req-name">Single-Line Diagram</div><div class="req-note">AC &amp; DC components, breaker sizing</div></td>
+                <td><span class="chk">&#10003;</span></td>
+                <td><span class="chk">&#10003;</span></td>
+                <td><span class="badge b-neutral" style="font-size:10px;">Labeled components</span></td>
+              </tr>
+              <tr>
+                <td><div class="req-name">Energy Storage Plan</div><div class="req-note">Required for all battery systems (BESS)</div></td>
+                <td><span class="chk">&#10003;</span></td>
+                <td><span class="chk">&#10003;</span></td>
+                <td><span class="badge b-info" style="font-size:10px;">Separate sheet req.</span></td>
+              </tr>
+              <tr>
+                <td><div class="req-name">Load Calculations</div></td>
+                <td><span class="dash">—</span></td>
+                <td><span class="chk">&#10003;</span></td>
+                <td><span class="badge b-neutral" style="font-size:10px;">Commercial only</span></td>
+              </tr>
+              <tr>
+                <td><div class="req-name">Equipment Cut Sheets</div><div class="req-note">Modules, inverter, battery if applicable</div></td>
+                <td><span class="chk">&#10003;</span></td>
+                <td><span class="chk">&#10003;</span></td>
+                <td><span class="badge b-neutral" style="font-size:10px;">All components</span></td>
+              </tr>
+              <tr>
+                <td><div class="req-name">Utility Interconnect App</div></td>
+                <td><span class="dash">—</span></td>
+                <td><span class="chk">&#10003;</span></td>
+                <td><span class="badge b-info" style="font-size:10px;">Xcel Energy</span></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <hr class="rule">
+
+          <div class="eyebrow">Submission Methods</div>
+          <div class="method-row">
+            <div class="method-pill preferred">
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6"/><path d="M5 8l2.5 2.5L11 6"/></svg>
+              Online Portal (Preferred)
+            </div>
+            <div class="method-pill available">
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h8v8H4z"/><path d="M4 8h8"/></svg>
+              In-Person
+            </div>
+            <div class="method-pill available">
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="12" height="10" rx="1"/><path d="M2 5l6 5 6-5"/></svg>
+              Email (Under 10 MB)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-side">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Alerts &amp; Updates</span>
+          <span class="badge b-warn" style="font-size:9.5px;padding:2px 6px;">3 New</span>
+        </div>
+        <div class="card-body" style="padding:10px 14px;">
+          <div class="alert-row">
+            <div class="alert-pip pip-amber"></div>
+            <div class="alert-body">
+              <div class="alert-title">Fee schedule updated — Jefferson County</div>
+              <div class="alert-time">2 days ago &nbsp;·&nbsp; Community verified</div>
+            </div>
+          </div>
+          <div class="alert-row">
+            <div class="alert-pip pip-navy"></div>
+            <div class="alert-body">
+              <div class="alert-title">NEC 2023 adoption confirmed — Douglas County</div>
+              <div class="alert-time">5 days ago &nbsp;·&nbsp; AHJ confirmed</div>
+            </div>
+          </div>
+          <div class="alert-row">
+            <div class="alert-pip pip-green"></div>
+            <div class="alert-body">
+              <div class="alert-title">Online portal restored — Boulder County</div>
+              <div class="alert-time">1 week ago &nbsp;·&nbsp; System update</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">AHJ Contacts</span>
+          <span class="badge b-amber" style="font-size:9px;padding:2px 6px;">PRO</span>
+        </div>
+        <div class="card-body" style="padding:10px 14px;">
+          <div class="info-row"><span class="info-k">Building Dept.</span><span class="info-v info-link">303-271-8700</span></div>
+          <div class="info-row"><span class="info-k">Inspector Direct</span><span class="info-v" style="color:var(--amber);font-size:11px;">View contact →</span></div>
+          <div class="info-row"><span class="info-k">Permit Portal</span><span class="info-v info-link">jeffco.us/permits</span></div>
+          <div class="info-row"><span class="info-k">Office Hours</span><span class="info-v">M–F, 8am–4:30pm</span></div>
+          <div class="info-row"><span class="info-k">Inspection Line</span><span class="info-v info-link">303-271-8777</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Fee Estimate</span>
+          <span class="card-meta">Residential Solar</span>
+        </div>
+        <div class="card-body" style="padding:10px 14px;">
+          <div class="info-row"><span class="info-k">Base permit fee</span><span class="info-v">$150.00</span></div>
+          <div class="info-row"><span class="info-k">Plan check fee</span><span class="info-v">$75.00</span></div>
+          <div class="info-row"><span class="info-k">State surcharge</span><span class="info-v">$6.50</span></div>
+          <div class="info-row" style="border-bottom:none;">
+            <span class="info-k" style="font-weight:600;color:var(--navy);">Estimated total</span>
+            <span style="font-family:var(--font-display);font-size:20px;font-weight:600;color:var(--navy);">$231.50</span>
+          </div>
+          <div style="font-size:10px;color:var(--muted);margin-top:5px;line-height:1.5;">Typical residential ≤10 kW. Verify with AHJ before submitting.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Team Activity</span>
+          <span class="badge b-amber" style="font-size:9px;padding:2px 6px;">PRO</span>
+        </div>
+        <div class="card-body" style="padding:10px 14px;">
+          <div class="activity-row">
+            <div class="act-av av-navy">JR</div>
+            <div>
+              <div class="act-text"><strong>Jordan R.</strong> added a note to Jefferson County</div>
+              <div class="act-time">Today, 9:14 am</div>
+            </div>
+          </div>
+          <div class="activity-row">
+            <div class="act-av av-muted">SM</div>
+            <div>
+              <div class="act-text"><strong>Sam M.</strong> exported checklist — Arapahoe Co.</div>
+              <div class="act-time">Yesterday, 3:41 pm</div>
+            </div>
+          </div>
+          <div class="activity-row">
+            <div class="act-av av-amber">KM</div>
+            <div>
+              <div class="act-text"><strong>You</strong> saved Douglas County to Q2 Projects</div>
+              <div class="act-time">Mar 14, 2026</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-stat">
+      <div class="footer-pip fp-green"></div>
+      36,177 AHJs indexed
+    </div>
+    <div class="footer-stat">
+      <div class="footer-pip fp-amber"></div>
+      Last refresh: Mar 15, 2026
+    </div>
+    <div class="footer-brand">AHJ.wiki &nbsp;·&nbsp; Permitting intelligence for distributed clean energy &nbsp;·&nbsp; Starting with solar &amp; storage</div>
+  </div>
+
+</div>
+</body>
+</html>
